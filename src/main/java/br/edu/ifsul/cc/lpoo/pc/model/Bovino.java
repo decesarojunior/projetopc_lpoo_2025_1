@@ -3,24 +3,71 @@ package br.edu.ifsul.cc.lpoo.pc.model;
 
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author telmo
  */
+@Entity
+@Table(name = "tb_bovino")
 public class Bovino {
     
+    @Id
+    @SequenceGenerator(name = "seq_bovino", sequenceName = "seq_bovino_id", allocationSize = 1)
+    @GeneratedValue(generator = "seq_bovino", strategy = GenerationType.SEQUENCE)
     private Integer id;
+    
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_inicio;
+    
+    @Column(nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar data_fim;
+    
+    @Column(nullable = false, precision = 2)
     private Float peso_chegada;
+    
+    @Column(nullable = false, precision = 2)
     private Float peso_atual;
+    
+    @Column(nullable = false, precision = 2)
     private Float valor_kg_compra;
+    
+    @Column(nullable = true, precision = 2)
     private Float valor_kg_venda;
+    
+    @Column(nullable = false, precision = 2)
     private Float custo_diario;
+    
+    @Column(nullable = true, precision = 2)
     private Float valor_liquido;
-    private Raca raca;
+    
+    @ManyToOne // associação
+    @JoinColumn(name = "raca_id", nullable = false)
+    private Raca raca;//associação
+    
+    @OneToMany(mappedBy = "bovino")//mappedBy deve apontar para a referencia de Bovino dentro de Pesagem.   
     private List<Pesagem> pesagens;
+    
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Situacao situacao;
 
     public Bovino() {

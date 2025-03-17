@@ -1,13 +1,29 @@
 
 package br.edu.ifsul.cc.lpoo.pc.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 /**
  *
  * @author telmo
  */
+
+@Entity
+@Table(name = "tb_raca")
 public class Raca {
     
+    @Id
+    @SequenceGenerator(name = "seq_raca", sequenceName = "seq_raca_id", allocationSize = 1)
+    @GeneratedValue(generator = "seq_raca", strategy = GenerationType.SEQUENCE)        
     private Integer id;
+    
+    @Column(nullable = false, length = 100)
     private String nome;
 
     public Raca() {
